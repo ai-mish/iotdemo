@@ -56,10 +56,10 @@ def start_project():
         print("Can't connect to ESP server: " + host)
         print(e)
 
-    logger.info((esp.server_info)
+    logger.info(esp.server_info)
 
     #creating an empty project
-    logger.info(("### Creating Project ###")
+    logger.info("### Creating Project ###")
     detectionProject = esp.create_project('detectionProject')
 
 
@@ -98,13 +98,13 @@ def start_project():
     model_request.add_target( model_reader, role='request')
     model_reader.add_target( scorer, role='model')
 
-    logger.info(("### Loading Project ###")
+    logger.info("### Loading Project ###")
     #load the project
     esp.load_project(detectionProject)
     #print(detectionProject.to_xml(pretty=True))
 
 
-    logger.info(("### Loading Model ###")
+    logger.info("### Loading Model ###")
     #send the load model signal
     pub = model_request.create_publisher(blocksize=1, rate=0, pause=0,
                                    dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert', format='csv')

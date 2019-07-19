@@ -12,20 +12,27 @@ git push -u origin master
 
 ```
 sudo mkdir -p /app
-sudo chown ec2-user:ec2-user /app
+
 cd /app
 git clone https://github.com/sukmmi/iotdemo.git
 cd iotdemo
 git pull origin master
+sudo chown -R ec2-user:ec2-user /app
 ```
 
-# ESP server
+# ESP server Install
 
 ```
 source /opt/sas/os/anaconda3/bin/activate
 conda init
 sudo cp -p SASViyaV0300_09PCY1_Linux_x86-64.txt /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
 sudo chown sas:sas /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
+```
+
+# ESP server start
+```
+export astore_dir=/app/iotdemo/astore/DoD_DroneSpotter
+bash /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30003 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
 ```
 # ESP client installation
 
