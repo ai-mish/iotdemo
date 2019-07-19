@@ -16,8 +16,6 @@ import csv
 import esppy
 from esppy.plotting import StreamingImages
 
-
-
 def start_project():
 
     #astore path
@@ -58,31 +56,24 @@ def start_project():
         print("Can't connect to ESP server: " + host)
         print(e)
 
-
-    # In[103]:
-    print(esp.server_info)
+    logger.info((esp.server_info)
 
     #creating an empty project
-    print("### Creating Project ###")
+    logger.info(("### Creating Project ###")
     detectionProject = esp.create_project('detectionProject')
 
 
-    # In[107]:
     #adding source window
     src = esp.SourceWindow(schema=('id*:int64', 'image:blob'),
                               index_type='empty', insert_only=True)
     detectionProject.windows['w_data'] = src
 
 
-    # In[108]:
     #adding resize window
     resize = esp.calculate.ImageProcessing(schema=('id*:int64', '_image_:blob'), function="resize", width=416, height=416)
     resize.set_inputs( imageInput='image:blob')
     resize.set_outputs( imageOutput='_image_:blob')
     detectionProject.windows['resized'] = resize
-
-
-    # In[109]:
 
 
     #define a request window to inject the astore model to the reader window
@@ -91,23 +82,10 @@ def start_project():
     detectionProject.windows['w_request'] = model_request
 
 
-    # In[110]:
-
-
     #define a model reader window
     model_reader = esp.ModelReaderWindow()
     detectionProject.windows['w_reader'] = model_reader
 
-
-    # In[111]:
-
-
-    #add a scoring window
-    #labelList = createYoloLabelString()
-    #server path
-    astore_file='/shared/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore'
-    #local path
-    schema_file='/vagrant/esp_19w25/git/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore.metadata'
     labelList = createYoloLabelString(schema_file)
     scorer = esp.ScoreWindow()
     scorer.schema = labelList
@@ -120,13 +98,13 @@ def start_project():
     model_request.add_target( model_reader, role='request')
     model_reader.add_target( scorer, role='model')
 
-    print("### Loading Project ###")
+    logger.info(("### Loading Project ###")
     #load the project
     esp.load_project(detectionProject)
     #print(detectionProject.to_xml(pretty=True))
 
 
-    print("### Loading Model ###")
+    logger.info(("### Loading Model ###")
     #send the load model signal
     pub = model_request.create_publisher(blocksize=1, rate=0, pause=0,
                                    dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert', format='csv')
@@ -136,7 +114,7 @@ def start_project():
     pub.send('i,n,4,,\n')
     pub.close()
 
-    print("### Project Started ###")
+    logger.info("### Project Started ###")
 
 # Wait for the ESP server to start
 def wait_for_esp(pid):

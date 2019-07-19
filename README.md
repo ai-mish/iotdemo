@@ -19,6 +19,14 @@ cd iotdemo
 git pull origin master
 ```
 
+# ESP server
+
+```
+source /opt/sas/os/anaconda3/bin/activate
+conda init
+sudo cp -p SASViyaV0300_09PCY1_Linux_x86-64.txt /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
+sudo chown sas:sas /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
+```
 # ESP client installation
 
 ```
