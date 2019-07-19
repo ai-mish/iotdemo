@@ -2,7 +2,7 @@
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+BASEDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 export DFESP_HOME=/opt/sas/viya/home/SASEventStreamProcessingEngine/6.1
 export SASTK=/opt/sas/viya/home/SASFoundation/sasexe
@@ -14,5 +14,5 @@ export DFESP_SSLPATH=$DFESP_HOME/ssl/lib
 export DFESP_JAVA_TRUSTSTORE=/opt/sas/viya/config/etc/SASSecurityCertificateFramework/cacerts/trustedcerts.jks
 export SSLCALISTLOC=/opt/sas/viya/config/etc/SASSecurityCertificateFramework/cacerts/trustedcerts.pem
 
-OBJDET="$SOURCE/objectdetection-server.py"
+OBJDET="$BASEDIR/objectdetection-server.py"
 exec python $OBJDET $@

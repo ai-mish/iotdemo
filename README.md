@@ -1,6 +1,24 @@
 # iotdemo
 
 
+# push changes to master branch
+```
+git add .
+git commit -m "comments"
+git push -u origin master
+```
+
+# deploy code
+
+```
+sudo mkdir -p /app
+sudo chown ec2-user:ec2-user /app
+cd /app
+git clone https://github.com/sukmmi/iotdemo.git
+cd iotdemo
+git pull origin master
+```
+
 # ESP client installation
 
 ```
