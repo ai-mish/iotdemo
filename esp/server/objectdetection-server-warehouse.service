@@ -1,0 +1,11 @@
+[Unit]
+Description=Object Detection Service
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=sas
+ExecStart=/bin/sh -c './esp-start.sh -m astrefile -s schema.txt -a 30001 -p 30003 > /var/log/esp.log 2>&1'
+
+[Install]
+WantedBy=multi-user.target
