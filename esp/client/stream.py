@@ -6,6 +6,7 @@ import time
 import uuid
 import os
 
+
 sys.path.append("/vagrant/esp_19w25/git/python-esppy")
 import esppy
 from esppy.plotting import StreamingImages
@@ -16,7 +17,7 @@ import swat
 
 
 
-host = 'espserver.esp19w25.local'
+host = 'esp61.sasanzdemo.com'
 port = 30001
 
 esp = esppy.ESP(host, 30001)
