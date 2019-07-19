@@ -23,7 +23,7 @@ def start_project():
     astore_file=args.model
     #schema path
     #schema_file='/shared/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore.metadata'
-    astore_file=args.schema
+    schema_file=args.schema
 
     def createYoloLabelString(file):
         astore_map = {}
