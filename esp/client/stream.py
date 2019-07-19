@@ -7,11 +7,11 @@ import uuid
 import os
 
 
-sys.path.append("/vagrant/esp_19w25/git/python-esppy")
+sys.path.append("<path-to-github-clone-esppy>/python-esppy")
 import esppy
-from esppy.plotting import StreamingImages
-sys.path.append("/vagrant/esp_19w25/git/python-swat")
-import swat
+#from esppy.plotting import StreamingImages
+#sys.path.append("/vagrant/esp_19w25/git/python-swat")
+#import swat
 
 #cap = cv2.VideoCapture(0)
 

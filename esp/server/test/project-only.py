@@ -1,3 +1,6 @@
+#export SASHOME=/opt/sas/viya
+#export PYTHONPATH="$SASHOME/home/SASEventStreamProcessingEngine/current/lib/:/app/python-esppy"
+
 import os
 import re
 import sys
@@ -40,8 +43,9 @@ def start_project():
                     current_map=row[0]
                 else:
                     #left,right = row[1].split(":")
+                    left,right = re.split(': |\( |\)',row[1])
                     strip_txt=row[1].replace(" ", "")
-                    astore_map[current_map].append(strip_txt)
+                    astore_map[current_map].append(left+":"+right)
         return astore_map['output-map:']
 
     #host = os.environ['ESPHOST']
@@ -56,10 +60,10 @@ def start_project():
         print("Can't connect to ESP server: " + host)
         print(e)
 
-    logger.info(esp.server_info)
+    print(esp.server_info)
 
     #creating an empty project
-    logger.info("### Creating Project ###")
+    print("### Creating Project ###")
     detectionProject = esp.create_project('detectionProject')
 
 
@@ -87,7 +91,7 @@ def start_project():
     detectionProject.windows['w_reader'] = model_reader
 
     labelList = createYoloLabelString(schema_file)
-    #logger.info(labelList)
+    print(labelList)
     scorer = esp.ScoreWindow()
     scorer.schema = labelList
     scorer.add_offline_model(model_type='astore')
@@ -99,74 +103,24 @@ def start_project():
     model_request.add_target( model_reader, role='request')
     model_reader.add_target( scorer, role='model')
 
-    logger.info("### Loading Project ###")
+    print("### Loading Project ###")
     #load the project
     esp.load_project(detectionProject)
     #print(detectionProject.to_xml(pretty=True))
 
 
-    logger.info("### Loading Model ###")
+    print("### Loading Model ###")
     #send the load model signal
     pub = model_request.create_publisher(blocksize=1, rate=0, pause=0,
                                    dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert', format='csv')
     pub.send('i,n,1,"action","load"\n')
     pub.send('i,n,2,"type","astore"\n')
     pub.send('i,n,3,"reference","' + astore_file + '"\n')
-    pub.send('i,n,4,usegpuesp,1')
-    pub.send('i,n,5,NDEVICES,1')
-    pub.send('i,n,6,DEVICE0,0')
-    pub.send('i,n,7,,\n')
+    pub.send('i,n,4,,\n')
     pub.close()
 
+    print("### Project Started ###")
 
-
-
-    logger.info("### Project Started ###")
-
-# Wait for the ESP server to start
-def wait_for_esp(pid):
-    while not esp_port_in_use(True):
-        time.sleep(2)
-        try:
-            os.getpgid(pid)
-        except:
-            logger.error('ESP failed to start')
-            sys.exit(1)
-
-
-# Check if the ESP ports are in use
-def esp_port_in_use(log):
-    ready = True
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    result = sock.connect_ex(('127.0.0.1', args.pubsub))
-    if result == 0:
-        sock.close()
-    else:
-        if log:
-            logger.debug('ESP server not listening')
-        ready = False
-    return ready
-
-# If any child process dies then terminate the others
-def wait_for_shutdown():
-    while True:
-        try:
-            pid, status = os.wait()
-            logger.warn(pids[pid] + ' stopped with status ' + str(status) + ', stopping other processes...')
-            sys.exit(1)
-        except OSError as err:
-            if err.errno != errno.EINTR:
-                raise
-
-
-# Stop all child processes
-def stop_child_processes():
-    for pid, name in pids.items():
-        try:
-            logger.warn('Terminating ' + name + ': ' + str(pid))
-            os.kill(pid, signal.SIGTERM)
-        except OSError:
-            logger.debug('Failed to terminate: ' + pids[pid])
 
 if __name__ == '__main__':
     # Read command line options
@@ -190,32 +144,4 @@ if __name__ == '__main__':
         logger.setLevel(logging.WARN)
         logging.getLogger(modelingApi.getLoggingHandler()).setLevel(logging.FATAL)
 
-    espOptions = ''
-    if args.httpport > 0:
-        espOptions = ' -http ' + str(args.httpport)
-
-
-    # To avoid connecting to an already running ESP server check the ports are not in use
-    if esp_port_in_use(False):
-        logger.error('Unable to start ESP - port in use')
-        sys.exit(1)
-
-    # Dictionary of child process IDs
-    pids = {}
-    signal.signal(signal.SIGTERM, lambda signum, frame: sys.exit(0))
-
-    try:
-        pid = Popen(['bash', '-c', 'exec ${DFESP_HOME}/bin/dfesp_xml_server -loglevel esp=' + esp_log_level + espOptions + ' -pubsub ' + str(args.pubsub)]).pid
-        pids[pid] = 'ESP Server'
-        wait_for_esp(pid)
-        start_project()
-
-        wait_for_shutdown()
-
-    # Clean up any child processes before exit
-    except KeyboardInterrupt:
-        stop_child_processes()
-        sys.exit(0)
-    except SystemExit:
-        stop_child_processes()
-        raise
+    start_project()
