@@ -1,0 +1,37 @@
+{
+  "name": "streaming-data",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.9.1",
+    "echarts": "4.2.0-rc.2",
+    "echarts-for-react": "^2.0.15-beta.0",
+    "es5-ext": "^0.10.46",
+    "fusioncharts": "^3.13.2-sr.1",
+    "kafka-node": "3.0.1",
+    "mina": "^1.0.9",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-fusioncharts": "^2.0.7",
+    "react-scripts": "^3.0.1",
+    "serve": "^10.1.1",
+    "socket.io": "^2.1.1"
+  },
+  "scripts": {
+    "start": "REACT_APP_ENV=development sh -ac '. src/configs/.env.${REACT_APP_ENV}; PORT=${REACT_APP_PORTAL_PORT} react-scripts start'",
+    "test": "react-scripts test --env=jsdom",
+    "build": "sh -ac '. src/configs/.env.${REACT_APP_ENV}; react-scripts build'",
+    "build:staging": "REACT_APP_ENV=staging npm run build",
+    "build:production": "REACT_APP_ENV=production npm run build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
