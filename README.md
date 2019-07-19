@@ -22,7 +22,7 @@ git pull origin master
 # ESP client installation
 
 ```
-conda install pandas pillow ws4py requests graphviz
+conda install -y pandas pillow ws4py requests graphviz plotly
 git clone https://github.com/sassoftware/python-esppy.git
 conda install websocket
 conda install websocket-client

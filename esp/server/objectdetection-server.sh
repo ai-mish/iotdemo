@@ -1,9 +1,12 @@
 #!/bin/bash
 
+set -x
+
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 BASEDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+export APP=/app
 export SASHOME=/opt/sas/viya
 export DFESP_HOME=$SASHOME/home/SASEventStreamProcessingEngine/6.1
 export SASTK=$SASHOME/home/SASFoundation/sasexe
@@ -15,7 +18,8 @@ export DFESP_SSLPATH=$DFESP_HOME/ssl/lib
 export DFESP_JAVA_TRUSTSTORE=$SASHOME/config/etc/SASSecurityCertificateFramework/cacerts/trustedcerts.jks
 export SSLCALISTLOC=$SASHOME/config/etc/SASSecurityCertificateFramework/cacerts/trustedcerts.pem
 
-export PYTHONPATH="$SASHOME/home/SASEventStreamProcessingEngine/current/lib/"
+#git clone https://github.com/sassoftware/python-esppy.git
+export PYTHONPATH="$SASHOME/home/SASEventStreamProcessingEngine/current/lib/:$APP/python-esppy"
 
 OBJDET="$BASEDIR/objectdetection-server.py"
 exec python $OBJDET $@

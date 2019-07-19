@@ -10,21 +10,18 @@ import logging
 import argparse
 import modelingApi
 from subprocess import Popen
-from setproctitle import *
+#from setproctitle import *
 from multiprocessing import Process, Value, log_to_stderr
 import csv
-
-sys.path.append("/shared/esp/python-esppy")
 import esppy
 from esppy.plotting import StreamingImages
-sys.path.append("/shared/esp/python-swat")
 
 
 
 def start_project():
 
     #astore path
-    astore_file='/shared/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore'
+    #astore_file='/shared/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore'
     astore_file=args.model
     #schema path
     #schema_file='/shared/esp/DoD_warehouse/WAREHOUSE_Tiny-Yolov2.astore.metadata'
@@ -51,12 +48,12 @@ def start_project():
 
     #host = os.environ['ESPHOST']
     #port = os.environ['ESPPORT']
-    host = 'espserver.esp19w25.local'
-    port = 30001
+    #host = 'espserver.esp19w25.local'
+    #port = 30001
 
     # connect to the esp server
     try:
-        esp = esppy.ESP(host, 30001)
+        esp = esppy.ESP('127.0.0.1', args.httpport)
     except Exception as e:
         print("Can't connect to ESP server: " + host)
         print(e)
@@ -117,30 +114,17 @@ def start_project():
     scorer.add_offline_model(model_type='astore')
     detectionProject.windows['w_score'] = scorer
 
-    #add aggregate window
-    #agg = esp.AggregateWindow(schema=('id*:int64', 'cOut:double'),
-    #                          pubsub=True)
-    #agg.add_field_expressions('ESP_aAve(cOut)')
-    #detectionProject.windows['w_agg'] = agg
-
-    # In[112]:
-    #<window-transpose name="TransposeL" pubsub="true" mode="long" tag-name="TAG" tag-values="value,time" tags-included="pitch,roll,yaw,velocity">
-
     #connecting the windows
     src.add_target( resize, role='data')
     resize.add_target( scorer, role='data')
     model_request.add_target( model_reader, role='request')
     model_reader.add_target( scorer, role='model')
 
-
-    # In[96]:
-
     print("### Loading Project ###")
     #load the project
     esp.load_project(detectionProject)
-    #print(trades_project.to_xml(pretty=True))
+    #print(detectionProject.to_xml(pretty=True))
 
-    # In[113]:
 
     print("### Loading Model ###")
     #send the load model signal
@@ -192,7 +176,7 @@ def wait_for_shutdown():
 
 # Stop all child processes
 def stop_child_processes():
-    for pid, name in pids.iteritems():
+    for pid, name in pids.items():
         try:
             logger.warn('Terminating ' + name + ': ' + str(pid))
             os.kill(pid, signal.SIGTERM)
@@ -236,7 +220,7 @@ if __name__ == '__main__':
     signal.signal(signal.SIGTERM, lambda signum, frame: sys.exit(0))
 
     try:
-        pid = Popen(['bash', '-c', 'exec ${DFESP_HOME}/bin/dfesp_xml_server -loglevel esp=' + esp_log_level + espOptions + ' -pubsub ' + str(args.pubsub) + '"']).pid
+        pid = Popen(['bash', '-c', 'exec ${DFESP_HOME}/bin/dfesp_xml_server -loglevel esp=' + esp_log_level + espOptions + ' -pubsub ' + str(args.pubsub)]).pid
         pids[pid] = 'ESP Server'
         wait_for_esp(pid)
 
