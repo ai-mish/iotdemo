@@ -201,6 +201,7 @@ if __name__ == '__main__':
         pid = Popen(['bash', '-c', 'exec ${DFESP_HOME}/bin/dfesp_xml_server -loglevel esp=' + esp_log_level + espOptions + ' -pubsub ' + str(args.pubsub)]).pid
         pids[pid] = 'ESP Server'
         wait_for_esp(pid)
+        start_project()
 
         wait_for_shutdown()
 
