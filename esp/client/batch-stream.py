@@ -8,6 +8,9 @@ import os
 
 sys.path.append("/vagrant/esp_19w25/git/python-esppy")
 import esppy
+from esppy.plotting import StreamingImages
+sys.path.append("/vagrant/esp_19w25/git/python-swat")
+import swat
 
 
 

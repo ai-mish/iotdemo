@@ -53,3 +53,10 @@ conda install -y --verbose -c conda-forge opencv==3.4.1
 # stream.py
 
 # display.py
+
+
+# monitor
+
+```
+watch -n 1 nvidia-smi
+```

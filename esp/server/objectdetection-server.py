@@ -113,9 +113,9 @@ def start_project():
     pub.send('i,n,1,"action","load"\n')
     pub.send('i,n,2,"type","astore"\n')
     pub.send('i,n,3,"reference","' + astore_file + '"\n')
-    pub.send('i,n,4,usegpuesp,1')
-    pub.send('i,n,5,NDEVICES,1')
-    pub.send('i,n,6,DEVICE0,0')
+    pub.send('i,n,4,"usegpuesp",1')
+    pub.send('i,n,5,"ndevices",1')
+    pub.send('i,n,6,"device0",0')
     pub.send('i,n,7,,\n')
     pub.close()
 

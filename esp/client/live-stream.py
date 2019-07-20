@@ -10,7 +10,6 @@ sys.path.append("/vagrant/esp_19w25/git/python-esppy")
 import esppy
 
 
-
 #host = 'espserver.esp19w25.local'
 #port = 30001
 host='esp61.sasanzdemo.com'

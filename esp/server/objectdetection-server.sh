@@ -6,12 +6,19 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 BASEDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+# GPU
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export PATH=/usr/local/cuda/bin:$PATH
+
+# App
 export APP=/app
 export SASHOME=/opt/sas/viya
 export DFESP_HOME=$SASHOME/home/SASEventStreamProcessingEngine/6.1
 export SASTK=$SASHOME/home/SASFoundation/sasexe
+
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DFESP_HOME/lib:${SASTK}:$DFESP_HOME/ssl/lib
 export TKPATH=$DFESP_HOME/lib/tk.940m3
+
 
 export PATH=$PATH:$DFESP_HOME/bin
 export DFESP_SSLPATH=$DFESP_HOME/ssl/lib
