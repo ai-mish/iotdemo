@@ -108,11 +108,13 @@ def start_project():
 
     logger.info("### Loading Model ###")
     #send the load model signal
+    logger.info("Loading " + astore_file)
     pub = model_request.create_publisher(blocksize=1, rate=0, pause=0,
                                    dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert', format='csv')
     pub.send('i,n,1,"action","load"\n')
     pub.send('i,n,2,"type","astore"\n')
-    pub.send('i,n,3,"reference","' + astore_file + '"\n')
+
+    pub.send('i,n,3,"reference","/app/iotdemo/astore/DoD_warehouse/yolov2.astore"\n')
     pub.send('i,n,4,"usegpuesp",1')
     pub.send('i,n,5,"ndevices",1')
     pub.send('i,n,6,"device0",0')
