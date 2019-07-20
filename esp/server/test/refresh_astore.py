@@ -8,6 +8,7 @@ import esppy
 
 if __name__ == '__main__':
 
+    astore_file='/app/iotdemo/astore/DoD_warehouse/yolov2.astore'
     for i in range(10):
         try:
             esp = esppy.ESP('127.0.0.1', 30001)
