@@ -34,6 +34,9 @@ sudo chown sas:sas /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/lic
 export astore_dir=/app/iotdemo/astore/DoD_warehouse
 bash /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30003 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
 
+export astore_dir=/app/iotdemo/astore/DoD_warehouse
+bash /app/iotdemo/esp/server/objectdetection-server.sh -a 80 -p 8080 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
+
 export astore_dir=/app/iotdemo/astore/DoD_DroneWebcam
 python /app/iotdemo/esp/server/test/project-only.py -a 30001 -p 30003 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
 ```

@@ -35,7 +35,8 @@ def start_project():
                     astore_map[row[0]]=['id*:int64']
                     current_map=row[0]
                 elif row[0] == 'output-map:':
-                    astore_map[row[0]]=['id*:int64','_image_:blob']
+                    #astore_map[row[0]]=['id*:int64','_image_:blob']
+                    astore_map[row[0]]=['id*:string','_image_:blob']
                     #astore_map[row[0]].append('_image_:blob')
                     current_map=row[0]
                 else:
