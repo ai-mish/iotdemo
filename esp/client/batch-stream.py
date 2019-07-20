@@ -6,29 +6,20 @@ import time
 import uuid
 import os
 
-
-sys.path.append("<path-to-github-clone-esppy>/python-esppy")
+sys.path.append("/vagrant/esp_19w25/git/python-esppy")
 import esppy
-#from esppy.plotting import StreamingImages
-#sys.path.append("/vagrant/esp_19w25/git/python-swat")
-#import swat
-
-#cap = cv2.VideoCapture(0)
 
 
 
-host = 'esp61.sasanzdemo.com'
-port = 30001
+#host = 'espserver.esp19w25.local'
+#port = 30001
+host='esp61.sasanzdemo.com'
+port = 80
 
-esp = esppy.ESP(host, 30001)
-print(esp.server_info)
-projects = esp.get_projects()
-project = projects['detectionProject']
-src = project["contquery"]["w_data"]
 
-pub = src.create_publisher(blocksize=1, rate=0, pause=0,
-                           dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert',
-                           format='csv')
+def getUniqueId():
+    id=str(uuid.uuid1().int>>96).strip()
+    return id
 
 def single_img(file):
     count = 100004
@@ -51,35 +42,33 @@ def multiple_img(dir):
              f2 = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
              retval, buffer = cv2.imencode('.jpg', f2)
              encoded_string = base64.b64encode(buffer)
-             strToSend = "i, n, " + str(count) + "," + encoded_string.decode() + "\n"
+             strToSend = "i, n, " + uuid.uuid4() + "," + encoded_string.decode() + "\n"
              pub.send(strToSend)
              #print(strToSend)
-             count+=1
+             #count+=1
              print("Sent image #" + str(os.path.join(dir, filename)))
              time.sleep(10)
         else:
             continue
 
 def video():
-    #cap = cv2.VideoCapture('/vagrant/esp_19w25/git/data/PremiseMonitoringV2_30FPS.mp4')
-    #cap = cv2.VideoCapture('/vagrant/esp_19w25/git/data/WarehouseSearch.mp4')
     cap = cv2.VideoCapture('/vagrant/esp_19w25/git/data/WIN_20190718_15_49_29_Pro.mp4')
+    #cap = cv2.VideoCapture(0)
 
     if (cap.isOpened()== False):
         print("Error opening video stream or file")
         return
     video_length = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
     print("Number of frames: %s" % str(video_length))
-    # ESP count must start from 1
-    #count = 1
-    count = 20000
-    #while True:
     while cap.isOpened():
             ret, image = cap.read()
             f2 = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
             _, buffer = cv2.imencode('.jpg', f2)
             encoded_string = base64.b64encode(buffer)
-            strToSend = "i, n, " + str(count) + "," + encoded_string.decode() + "\n"
+            #id=str(uuid.uuid4())
+            id=getUniqueId()
+            print(id)
+            strToSend = "i, n," + id + "," + encoded_string.decode() + "\n"
             pub.send(strToSend)
             #print(strToSend)
             print("Sent frame #" + str(count))
@@ -88,6 +77,29 @@ def video():
             time.sleep(0.04)
     #cap.release()
 
-video()
-#single_img('/vagrant/esp_19w25/git/data/test/ObjectDeteection-PremiseMonitoring2.mp4#t=0.1.jpg')
-#multiple_img('/vagrant/esp_19w25/git/data/test')
+if __name__ == '__main__':
+
+    for i in range(10):
+        try:
+            esp = esppy.ESP(host, port)
+            print(esp.server_info)
+        except Exception as e:
+            print("Can't connect to ESP server: " + host)
+            print(e)
+            time.sleep(5)
+            continue
+            #exit(1)
+        else:
+            break
+    else:
+        print("Can't connect to ESP server: " + host)
+        exit(1)
+
+    projects = esp.get_projects()
+    project = projects['detectionProject']
+    src = project["contquery"]["w_data"]
+
+    pub = src.create_publisher(blocksize=1, rate=0, pause=0,
+                               dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert',
+                               format='csv')
+    video()

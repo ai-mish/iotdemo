@@ -36,7 +36,7 @@ def start_project():
                     current_map=row[0]
                 elif row[0] == 'output-map:':
                     #astore_map[row[0]]=['id*:int64','_image_:blob']
-                    astore_map[row[0]]=['id*:string','_image_:blob']
+                    astore_map[row[0]]=['id*:int64','_image_:blob']
                     #astore_map[row[0]].append('_image_:blob')
                     current_map=row[0]
                 else:
@@ -118,9 +118,6 @@ def start_project():
     pub.send('i,n,6,DEVICE0,0')
     pub.send('i,n,7,,\n')
     pub.close()
-
-
-
 
     logger.info("### Project Started ###")
 
