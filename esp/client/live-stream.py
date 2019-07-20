@@ -26,8 +26,8 @@ def webcam():
     if (cap.isOpened()== False):
         print("Error opening video stream or file")
         return
-    video_length = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
-    print("Number of frames: %s" % str(video_length))
+    #video_length = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
+    #print("Number of frames: %s" % str(video_length))
     while cap.isOpened():
             ret, image = cap.read()
             f2 = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
@@ -42,7 +42,7 @@ def webcam():
             print("Sent frame #" + str(count))
             count+=1
             # 10 frames per seconds
-            time.sleep(0.04)
+            time.sleep(0.01)
     #cap.release()
 
 if __name__ == '__main__':

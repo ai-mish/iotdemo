@@ -3,9 +3,6 @@
 - [Install NVIDIA Graphics Driver via run file](#install nvidia driver)
 - [Install CUDA](#Install CUDA driver and toolkit)
 
-
-
-
 ## install nvidia driver
 ```
 export yum_cmd="yum --disablerepo=sas-*"
@@ -29,8 +26,7 @@ sudo ./cuda_10.1.168_418.67_linux.run.run -noprompt
 #sudo ./cuda_10.1.168_418.67_linux.run -cudaprefix=/usr/local/cuda-9.0 -noprompt
 
 ## enable persistent mode
-```
-nvidia-smi -pm 1
+```nvidia-smi -pm 1
 ```
 
 
@@ -42,14 +38,15 @@ Please make sure that
  sudo <CudaInstaller>.run --silent --driver
  e.g. bash cuda_10.1.168_418.67_linux.run --silent --driver
 ```
-## Uninstall
+
+## Uninstall GPU drivers
 
 ```
 sudo /usr/local/cuda/bin/cuda-uninstaller
 sudo /usr/bin/nvidia-uninstall
 ```
 
-## PATH
+## Include drivers and libs to Unix Library path
 ```
 export PATH=/usr/local/cuda-10.1/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
@@ -60,14 +57,14 @@ sudo bash -c "echo /usr/local/cuda/lib64/ > /etc/ld.so.conf.d/cuda.conf"
 sudo ldconfig
 ```
 
-## Verify
+## Check NVIDIA version
 ```
 cat /proc/driver/nvidia/version
 ```
 
-## Sample
+## Validate drivers install using CUDA samples
 ```
-cd /usr/local/cuda-9.0/samples
+cd /usr/local/cuda-X/samples
 sudo make
 cd /usr/local/cuda/samples/bin/x86_64/linux/release
 ./deviceQuery
@@ -75,7 +72,7 @@ cd /usr/local/cuda/samples/bin/x86_64/linux/release
 
 
 ```
-(base) [ec2-user@esp61 release]$ ./deviceQuery
+(base) [ec2-user@server release]$ ./deviceQuery
 ./deviceQuery Starting...
 
  CUDA Device Query (Runtime API) version (CUDART static linking)
@@ -123,21 +120,30 @@ Result = PASS
 (base) [ec2-user@esp61 release]$
 ```
 
+## Ensure ESP process appears in nvidia-smi output as shown below
+```
+(base) [ec2-user@server release]$ nvidia-smi
+Sat Jul 20 05:30:02 2019       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 418.67       Driver Version: 418.67       CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla M60           Off  | 00000000:00:1E.0 Off |                    0 |
+| N/A   34C    P0    39W / 150W |    337MiB /  7618MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
 
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0     20146      C   ...ocessingEngine/6.1/bin/dfesp_xml_server   326MiB |
++-----------------------------------------------------------------------------+
+```
+
+## Resources
 https://developer.download.nvidia.com/compute/cuda/9.1/Prod/docs/sidebar/CUDA_Installation_Guide_Linux.pdf
 
 (Optional) Enable GPU Functionality
 https://go.documentation.sas.com/api/docsets/dplyesp0phy0lax/6.1/content/dplyesp0phy0lax.pdf?locale=en
-
-
-
-
-set of NVIDIA libraries 
-
-CUDA    10.0.166
-cuDNN	7.5
-NCCL	2.4
-CUB     1.8.0
-JetPack 4.2
-
-The latest NVIDIA driver version for CUDA 10.0 is 410.1
