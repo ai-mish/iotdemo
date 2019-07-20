@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     for i in range(10):
         try:
-            esp = esppy.ESP('localhost', 30001)
+            esp = esppy.ESP('127.0.0.1', 30001)
             print(esp.server_info)
         except Exception as e:
             print("Can't connect to ESP server: " + host)
