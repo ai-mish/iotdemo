@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     projects = esp.get_projects()
     project = projects['detectionProject']
-    src = project["contquery"]["w_score"]
+    src = project["contquery"]["w_request"]
     print("### Loading Model ###")
     #send the load model signal
     pub = src.create_publisher(blocksize=1, rate=0, pause=0,
