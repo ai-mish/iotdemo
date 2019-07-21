@@ -19,8 +19,10 @@ python /app/iotdemo/esp/server/test/project-only.py -a 30005 -p 30006 -m $astore
 ```
 ##
 ```
-sudo cp myservice.service /etc/systemd/system/myservice.service
-sudo chmod 644 /etc/systemd/system/myservice.service
+sudo cp /app/iotdemo/esp/server/services/sas-esp-dronewebcam.service /etc/systemd/system/sas-esp-dronewebcam.service
+sudo chmod 644 /etc/systemd/system/sas-esp-dronewebcam.service
+sudo systemctl start sas-esp-dronewebcam
+sudo systemctl daemon-reload
 ```
 # Start client
 

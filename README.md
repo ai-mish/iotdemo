@@ -43,6 +43,9 @@ git clone https://github.com/sukmmi/iotdemo.git
 cd iotdemo
 git pull origin master
 sudo chown -R ec2-user:ec2-user /app
+
+
+sudo chmod 0755 /app/iotdemo/esp/server/*.sh
 ```
 
 # Push changes to master branch
