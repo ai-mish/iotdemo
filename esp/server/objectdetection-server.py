@@ -26,6 +26,7 @@ def start_project():
     schema_file=args.schema
 
     def createYoloLabelString(file):
+        regex = re.compile(r'^ *(.*?): *(.*?) *(\(.*?\))?$')
         astore_map = {}
         current_map='' #input_map: or output_map:
         with open(file, newline = '') as source:
@@ -35,14 +36,14 @@ def start_project():
                     astore_map[row[0]]=['id*:int64']
                     current_map=row[0]
                 elif row[0] == 'output-map:':
-                    #astore_map[row[0]]=['id*:int64','_image_:blob']
                     astore_map[row[0]]=['id*:int64','_image_:blob']
                     #astore_map[row[0]].append('_image_:blob')
                     current_map=row[0]
                 else:
-                    #left,right = row[1].split(":")
-                    strip_txt=row[1].replace(" ", "")
-                    astore_map[current_map].append(strip_txt)
+                    line=regex.findall(row[1])
+                    if line:
+                        if len(line[0]) == 3:
+                            astore_map[current_map].append(line[0][0].replace(" ", "")+":"+line[0][1].replace(" ", ""))
         return astore_map['output-map:']
 
     #host = os.environ['ESPHOST']
@@ -111,7 +112,7 @@ def start_project():
     logger.info("Loading " + astore_file)
     pub = model_request.create_publisher(blocksize=1, rate=0, pause=0,
                                    dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert', format='csv')
-    
+
     pub.send('i,n,1,"action","load"\n')
     pub.send('i,n,2,"type","astore"\n')
     pub.send('i,n,3,"reference","' + astore_file + '"\n')
