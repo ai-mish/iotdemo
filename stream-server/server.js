@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
   console.log('Socket succesfully connected with id: '+socket.id);
   var count=0
 
-  const consumer_esp = new WebSocket('ws://espserver.esp19w25.local:30001/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true');
+  const consumer_esp = new WebSocket('ws://localhost:30001/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true');
 
   consumer_esp.onopen = function(event) {
   	// Send an initial message

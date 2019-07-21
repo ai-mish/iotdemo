@@ -7,6 +7,9 @@ The aim of this project is to do real-time object detection using Yolov2 Model a
 ```
 source /opt/sas/os/anaconda3/bin/activate
 conda init
+
+sudo ln -s /opt/sas/os/anaconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
 ```
 
 ## ESP license update

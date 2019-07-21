@@ -87,7 +87,7 @@
      //data.date = new Date(data.date);
      update(data)
  };
- var socket = io.connect('http://localhost:8000'); //, {port:81}
+ var socket = io.connect('http://esp61.sasanzdemo.com:8000'); //, {port:81}
  //socket.on('broadcast', function(data) {console.log(data);});
  socket.on('broadcast', handleServerRequest);
 

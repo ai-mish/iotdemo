@@ -2,20 +2,17 @@
 
 ## Premise
 ```
-export astore_dir=/app/iotdemo/astore/DoD_Premise
-bash /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30002 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
+nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30002 -m /app/iotdemo/astore/DoD_Premise/yolov2.astore -s /app/iotdemo/astore/DoD_Premise/schema.txt > /app/logs/esp-premise.log 2>&1 &
 ```
 
 ## Warehouse
 ```
-export astore_dir=/app/iotdemo/astore/DoD_warehouse
-bash /app/iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
+nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m /app/iotdemo/astore/DoD_warehouse/yolov2.astore -s /app/iotdemo/astore/DoD_warehouse/schema.txt > /app/logs/esp-warehouse.log 2>&1 &
 ```
 
 ## Drone WebCam
 ```
-export astore_dir=/app/iotdemo/astore/DoD_DroneWebcam
-python /app/iotdemo/esp/server/test/project-only.py -a 30005 -p 30006 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
+nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30005 -p 30006 -m /app/iotdemo/astore/DoD_DroneWebcam/yolov2.astore -s /app/iotdemo/astore/DoD_DroneWebcam/schema.txt > /app/logs/esp-dronewebcam.log 2>&1 &
 ```
 ##
 ```

@@ -6,6 +6,9 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 BASEDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+#Python
+conda activate
+
 # GPU
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 export PATH=/usr/local/cuda/bin:$PATH
