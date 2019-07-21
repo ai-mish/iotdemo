@@ -47,6 +47,9 @@ cd iotdemo
 git pull origin master
 sudo chown -R ec2-user:ec2-user /app
 
+git fetch --all
+git reset --hard origin/master
+git pull origin master
 
 sudo chmod 0755 /app/iotdemo/esp/server/*.sh
 ```

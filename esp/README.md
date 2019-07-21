@@ -7,7 +7,7 @@ nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30002 -m /ap
 
 ## Warehouse
 ```
-nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m /app/iotdemo/astore/DoD_warehouse/yolov2.astore -s /app/iotdemo/astore/DoD_warehouse/schema.txt > /app/logs/esp-warehouse.log 2>&1 &
+nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m /app/iotdemo/astore/DoD_warehouse/yolov2.astore -s /app/iotdemo/astore/DoD_warehouse/schema.txt > /app/logs/esp-warehouse.log -d 2>&1 &
 ```
 
 ## Drone WebCam

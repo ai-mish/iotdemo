@@ -7,7 +7,7 @@ while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 BASEDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 #Python
-conda activate
+#conda activate
 
 # GPU
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
