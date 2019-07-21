@@ -1,6 +1,6 @@
 # iotdemo
 
-Object Detection using Yolov2 Model
+The aim of this project is to do real-time object detection using Yolov2 Model and take appropriate action.
 
 ## Python setup on ESP
 
