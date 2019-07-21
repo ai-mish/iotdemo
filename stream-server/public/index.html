@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Author: Bo Ericsson -->
+  <title>Object Detection</title>
+  <link rel=stylesheet type=text/css href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" media="all">
+  <!--<link rel=stylesheet type=text/css href="../_lib/bootstrap.min.css" media="all">-->
+  <style>
+  .axis text {
+    font: 10px sans-serif;
+  }
+  .chartTitle {
+    font-size: 12px;
+    font-weight: bold;
+    text-anchor: middle;
+  }
+  .axis .title {
+    font-weight: bold;
+    text-anchor: middle;
+  }
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  .x.axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  .nav .area {
+    fill: lightgrey;
+    stroke-width: 0px;
+  }
+  .nav .line {
+    fill: none;
+    stroke: darkgrey;
+    stroke-width: 1px;
+  }
+  .viewport {
+    stroke: grey;
+    fill: black;
+    fill-opacity: 0.3;
+  }
+  .viewport .extent {
+    fill: green;
+  }
+  .well {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  </style>
+<body>
+
+<div style="max-width: 900px; max-height: 400px; padding: 10px">
+
+  <div class="well">
+    <h4>Real-Time Video Analytics Demo
+  </div>
+  <input id="debug" type="checkbox" name="debug" value="debug" style="margin-bottom: 10px" /> Debug
+  <input id="halt" type="checkbox" name="halt" value="halt" style="margin-bottom: 10px" /> Halt
+
+  <div id="viewDiv"></div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<!--<script src="../_lib/d3.min.js"></script>-->
+<script src="realTimeChartMulti.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" type="text/javascript"></script>
+
+<!-- Handle socket communication -->
+ <script type="text/javascript">
+ //
+ // This script block handles all the Socket-IO communication
+ console.log('client');
+ var handleServerRequest = function(data) {
+     console.log('client');
+     console.log({
+         source: 'server',
+         action: 'request',
+         data: data
+     });
+     //data.date = new Date(data.date);
+     update(data)
+ };
+ var socket = io.connect('http://localhost:8000'); //, {port:81}
+ //socket.on('broadcast', function(data) {console.log(data);});
+ socket.on('broadcast', handleServerRequest);
+
+
+ </script>
+
+
+<script>
+'use strict';
+
+// create the real time chart
+var data = [];
+var yDomain = [];
+
+
+var chart = realTimeChartMulti()
+    .title("Timeline view of Object detection")
+    .yTitle("Objects")
+    .xTitle("Time")
+    .yDomain(["None"]) // initial y domain (note array)
+    .border(true)
+    .width(900)
+    .height(350);
+
+
+// invoke the chart
+var chartDiv = d3.select("#viewDiv").append("div")
+    .attr("id", "chartDiv")
+    .call(chart);
+
+// alternative and equivalent invocation
+//chart(chartDiv);
+
+// event handler for debug checkbox
+d3.select("#debug").on("change", function() {
+  var state = d3.select(this).property("checked")
+  chart.debug(state);
+})
+
+// event handler for halt checkbox
+d3.select("#halt").on("change", function() {
+  var state = d3.select(this).property("checked")
+  chart.halt(state);
+})
+
+
+// configure the data generator
+
+// mean and deviation for generation of time intervals
+var tX = 5; // time constant, multiple of one second
+var meanMs = 1000 * tX, // milliseconds
+    dev = 200 * tX; // std dev
+
+// define time scale
+var timeScale = d3.scale.linear()
+    .domain([300 * tX, 1700 * tX])
+    .range([300 * tX, 1700 * tX])
+    .clamp(true);
+
+// define function that returns normally distributed random numbers
+var normal = d3.random.normal(meanMs, dev);
+
+// define color scale
+var color = d3.scale.category10();
+
+// in a normal use case, real time data would arrive through the network or some other mechanism
+var d = -1;
+var shapes = ["rect", "circle"];
+var timeout = 0;
+
+function remove_duplicates(arr) {
+  var obj = {};
+  var ret_arr = [];
+  for (var i = 0; i < arr.length; i++) {
+      obj[arr[i]] = true;
+  }
+  for (var key in obj) {
+      ret_arr.push(key);
+  }
+  return ret_arr;
+}
+
+var update = function(newData) {
+  var obj;
+
+  var date = new Date(newData.timestamp);
+
+  yDomain = remove_duplicates(yDomain.concat(newData.object_name))
+  console.log(yDomain)
+  chart.yDomain(yDomain);
+  //console.log(date)
+  obj = {
+    // complex data item; four attributes (type, color, opacity and size) are changing dynamically with each iteration (as an example)
+    time: date,
+    color: color(d % 10),
+    opacity: Math.max(Math.random(), 0.3),
+    category: newData.object_name,
+    type: "circle",
+    size: Math.max(newData.object_likelihood*10, 4),
+  };
+  console.log(obj)
+  // send the datum to the chart
+  chart.datum(obj);
+}
+</script>

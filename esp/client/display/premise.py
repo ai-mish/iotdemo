@@ -32,7 +32,7 @@ def on_message(ws, message):
         #r = cv2.resize(img, (800, 600))
         b,g,r = cv2.split(r)
         rgb = cv2.merge([r,g,b])
-        out.write(rgb)
+        #out.write(rgb)
         cv2.imshow('YOLO 2', rgb)
         cv2.waitKey(1)
 
