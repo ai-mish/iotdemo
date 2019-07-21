@@ -13,7 +13,7 @@ import esppy
 #host = 'espserver.esp19w25.local'
 #port = 30001
 host='esp61.sasanzdemo.com'
-port = 80
+port = 30005
 
 
 def getUniqueId():

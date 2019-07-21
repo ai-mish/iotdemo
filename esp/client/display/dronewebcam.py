@@ -116,7 +116,7 @@ if __name__ == "__main__":
     try:
 
         #websocket.enableTrace(True)
-        ws = websocket.WebSocketApp("ws://esp61.sasanzdemo.com:30001/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true",
+        ws = websocket.WebSocketApp("ws://esp61.sasanzdemo.com:30005/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true",
                                          on_message = on_message,
                                          on_error = on_error,
                                          on_close = on_close)

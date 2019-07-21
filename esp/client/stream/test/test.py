@@ -24,6 +24,35 @@ def getUniqueId():
     id=str(uuid.uuid1().int>>96).strip()
     return id
 
+def single_img(file):
+    count = 100004
+    image = cv2.imread(file)
+    f2 = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    retval, buffer = cv2.imencode('.jpg', f2)
+    encoded_string = base64.b64encode(buffer)
+    strToSend = "i, n, " + str(count) + "," + encoded_string.decode() + "\n"
+    pub.send(strToSend)
+    #print(strToSend)
+    #count+=1
+    print("Sent frame #" + str(count))
+
+def multiple_img(dir):
+    count = 50000
+    for filename in os.listdir(dir):
+        if filename.endswith(".jpg"):
+             # print(os.path.join(directory, filename))
+             image = cv2.imread(os.path.join(dir, filename))
+             f2 = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+             retval, buffer = cv2.imencode('.jpg', f2)
+             encoded_string = base64.b64encode(buffer)
+             strToSend = "i, n, " + uuid.uuid4() + "," + encoded_string.decode() + "\n"
+             pub.send(strToSend)
+             #print(strToSend)
+             #count+=1
+             print("Sent image #" + str(os.path.join(dir, filename)))
+             time.sleep(10)
+        else:
+            continue
 
 def video():
     cap = cv2.VideoCapture('/vagrant/esp_19w25/git/data/WIN_20190718_15_49_29_Pro.mp4')

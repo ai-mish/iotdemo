@@ -32,7 +32,7 @@ def on_message(ws, message):
         #r = cv2.resize(img, (800, 600))
         b,g,r = cv2.split(r)
         rgb = cv2.merge([r,g,b])
-        out.write(rgb)
+        #out.write(rgb)
         cv2.imshow('YOLO 2', rgb)
         cv2.waitKey(1)
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     try:
 
         #websocket.enableTrace(True)
-        ws = websocket.WebSocketApp("ws://esp61.sasanzdemo.com:30001/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true",
+        ws = websocket.WebSocketApp("ws://esp61.sasanzdemo.com:30003/SASESP/subscribers/detectionProject/contquery/w_score/?format=json&mode=streaming&pagesize=5&schema=true",
                                          on_message = on_message,
                                          on_error = on_error,
                                          on_close = on_close)
