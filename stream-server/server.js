@@ -37,9 +37,11 @@ io.on('connection', (socket) => {
       //var buf = new Buffer(event.value, "binary");
       //io.sockets.emit('broadcast',decodedMessage);
       count++;
+
       if(event.type == "message") {
         //console.log(event['data']['events'])
         //console.log(JSON.stringify(event));
+        //console.log(isJson(event))
         var decodedMessage = JSON.parse(JSON.stringify(event));
         //console.log(['data']);
 

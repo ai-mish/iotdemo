@@ -7,7 +7,8 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "serve": "^10.1.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "ws": "^7.1.1"
   },
   "scripts": {
     "start": "REACT_APP_ENV=development sh -ac '. src/configs/.env.${REACT_APP_ENV}; PORT=${REACT_APP_PORTAL_PORT} react-scripts start'",
