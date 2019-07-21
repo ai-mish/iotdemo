@@ -17,7 +17,11 @@ bash /app/iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m $ast
 export astore_dir=/app/iotdemo/astore/DoD_DroneWebcam
 python /app/iotdemo/esp/server/test/project-only.py -a 30005 -p 30006 -m $astore_dir/yolov2.astore -s $astore_dir/schema.txt
 ```
-
+##
+```
+sudo cp myservice.service /etc/systemd/system/myservice.service
+sudo chmod 644 /etc/systemd/system/myservice.service
+```
 # Start client
 
 ## Stream
