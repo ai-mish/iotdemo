@@ -6,13 +6,11 @@ const s_client = require('socket.io-client');
 const WebSocket = require('ws');
 const fs = require('fs')
 
+
 //app.get('/', function(req, res){
   //res.sendFile(__dirname + '/public/index.html');
 //});
 
-argparser = argparse.ArgumentParser(description='Object Detection')
-argparser.add_argument('-p', dest='httpport', help='http port number', type=int, required=False)
-args = argparser.parse_args()
 
 app.use('/', express.static('public'));
 
@@ -117,15 +115,14 @@ app.get('/', function(req, res){
 });
 
 
-//const port = 8000;
-//const port = 80;
-//io.listen(port);
-if args.httpport:
-  http.listen(args.httpport, function(){
+var args = process.argv.slice(2);
+port=args[0]
+if port:
+  http.listen(port, function(){
     console.log('listening on *:', port);
   });
 else:
   http.listen(8080, function(){
-    console.log('listening on *:', port);
+    console.log('listening on *:', 8080);
   });
 //console.log('listening on port ', port);
