@@ -33,22 +33,14 @@ io.on('connection', (socket) => {
 
   consumer_esp.onopen = function(event) {
   	// Send an initial message
+    console.log(event)
   	consumer_esp.send('I am the client and I\'m listening!');
   	// Listen for messages
   	consumer_esp.onmessage = function(event) {
-  		//console.log('Client received a message',event);
-      //var buf = new Buffer(event.value, "binary");
-      //io.sockets.emit('broadcast',decodedMessage);
       count++;
 
       if(event.type == "message") {
-        //console.log(event['data']['events'])
-        //console.log(JSON.stringify(event));
-        //console.log(isJson(event))
         var decodedMessage = JSON.parse(JSON.stringify(event));
-        //console.log(['data']);
-
-        //console.log(isJson(decodedMessage.data))
         var js_ts=0
         var detection={}
         if(isJson(decodedMessage.data)){
