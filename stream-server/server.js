@@ -33,10 +33,11 @@ io.on('connection', (socket) => {
 
   consumer_esp.onopen = function(event) {
   	// Send an initial message
-    console.log(event)
+
   	consumer_esp.send('I am the client and I\'m listening!');
   	// Listen for messages
   	consumer_esp.onmessage = function(event) {
+      console.log(event)
       count++;
 
       if(event.type == "message") {
