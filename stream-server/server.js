@@ -117,12 +117,15 @@ app.get('/', function(req, res){
 
 var args = process.argv.slice(2);
 port=args[0]
-if port:
+if (port) {
   http.listen(port, function(){
     console.log('listening on *:', port);
   });
-else:
+}
+else{
   http.listen(8080, function(){
     console.log('listening on *:', 8080);
   });
+}
+
 //console.log('listening on port ', port);
