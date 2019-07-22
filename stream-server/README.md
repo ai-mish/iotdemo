@@ -17,3 +17,6 @@ yum install gcc-c++ make
 # or: yum groupinstall 'Development Tools'
 
 sudo yum install nodejs
+
+
+nohup node server.js > node.log 2>&1 &

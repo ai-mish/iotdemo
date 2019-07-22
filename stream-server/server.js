@@ -113,6 +113,7 @@ app.get('/', function(req, res){
 
 
 const port = 8000;
+const port = 80;
 //io.listen(port);
 http.listen(port, function(){
   console.log('listening on *:', port);
