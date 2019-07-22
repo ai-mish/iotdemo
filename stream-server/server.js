@@ -9,6 +9,11 @@ const fs = require('fs')
 //app.get('/', function(req, res){
   //res.sendFile(__dirname + '/public/index.html');
 //});
+
+argparser = argparse.ArgumentParser(description='Object Detection')
+argparser.add_argument('-p', dest='httpport', help='http port number', type=int, required=False)
+args = argparser.parse_args()
+
 app.use('/', express.static('public'));
 
 function isJson(str) {
@@ -113,9 +118,14 @@ app.get('/', function(req, res){
 
 
 //const port = 8000;
-const port = 80;
+//const port = 80;
 //io.listen(port);
-http.listen(port, function(){
-  console.log('listening on *:', port);
-});
+if args.httpport:
+  http.listen(args.httpport, function(){
+    console.log('listening on *:', port);
+  });
+else:
+  http.listen(8080, function(){
+    console.log('listening on *:', port);
+  });
 //console.log('listening on port ', port);
