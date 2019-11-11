@@ -1,5 +1,6 @@
 # Start ESP server
 
+# How run models
 ## Premise
 ```
 nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30002 -m /app/iotdemo/astore/DoD_Premise/yolov2.astore -s /app/iotdemo/astore/DoD_Premise/schema.txt > /app/logs/esp-premise.log 2>&1 &
@@ -22,6 +23,10 @@ sudo cp /app/iotdemo/esp/server/services/sas-esp-dronewebcam.service /etc/system
 sudo chmod 644 /etc/systemd/system/sas-esp-dronewebcam.service
 sudo systemctl start sas-esp-dronewebcam
 sudo systemctl daemon-reload
+```
+
+```
+nohup /app/iotdemo/esp/server/objectdetection-server.sh -a 30001 -p 30002 -m /app/iotdemo/astore/Yolov2_OutOfBox/Tiny-Yolov2 -s /app/iotdemo/astore/Yolov2_OutOfBox/schema.txt > /app/logs/esp-default-yolov2.log 2>&1 &
 ```
 # Start client
 

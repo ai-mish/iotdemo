@@ -55,7 +55,7 @@ def start_project():
     try:
         esp = esppy.ESP('127.0.0.1', args.httpport)
     except Exception as e:
-        print("Can't connect to ESP server: " + host)
+        print("Can't connect to ESP server: ")
         print(e)
 
     logger.info(esp.server_info)

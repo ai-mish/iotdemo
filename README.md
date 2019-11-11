@@ -1,62 +1,14 @@
 # iotdemo
 
-The aim of this project is to do real-time object detection using Yolov2 Model and take appropriate action.
+The aim of this project is to deploy Yolov2 Model and provide API interface to interact.
 
-## Python setup on ESP
-
+#Setup Environment
 ```
-source /opt/sas/os/anaconda3/bin/activate
-conda init
-
-sudo ln -s /opt/sas/os/anaconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
-
+sudo bash install.sh
 ```
 
-## ESP license update
+#Start ESP
 ```
-sudo cp -p SASViyaV0300_09PCY1_Linux_x86-64.txt /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
-sudo chown sas:sas /opt/sas/viya/home/SASEventStreamProcessingEngine/6.1/etc/license/license.txt
-```
-
-## ESP server start
-Check esp section
-
-## ESP client installation
-
-```
-conda install -y pandas pillow ws4py requests graphviz plotly
-git clone https://github.com/sassoftware/python-esppy.git
-conda install websocket
-conda install websocket-client
-conda install -y --verbose -c conda-forge opencv==3.4.1
-```
-
-## GPU monitor
-
-```
-watch -n 1 nvidia-smi
-```
-
-## Deploy code
-
-```
-sudo mkdir -p /app
-cd /app
-git clone https://github.com/sukmmi/iotdemo.git
-cd iotdemo
-git pull origin master
-sudo chown -R ec2-user:ec2-user /app
-
-git fetch --all
-git reset --hard origin/master
-git pull origin master
-
-sudo chmod 0755 /app/iotdemo/esp/server/*.sh
-```
-
-# Push changes to master branch
-```
-git add .
-git commit -m "comments"
-git push -u origin master
+conda activate iotdemo
+bash iotdemo/esp/server/objectdetection-server.sh -a 30003 -p 30004 -m iotdemo/astore/Yolov2_OutOfBox/Tiny-Yolov2.astore -s /iotdemo/astore/Yolov2_OutOfBox/schema.txt -d
 ```
